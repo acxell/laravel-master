@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Core\MahasiswaController;
+use App\Http\Controllers\Core\PengumumanController;
 use App\Http\Controllers\Core\PermissionsController;
+use App\Http\Controllers\Core\ProposalController;
 use App\Http\Controllers\Core\RolesController;
-use App\Http\Controllers\MahasiswaController;
-use App\Http\Controllers\PengumumanController;
-use App\Http\Controllers\ProposalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,8 +60,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Core'], function()
             Route::get('/{menu}/delete', 'MenusController@destroy')->name('menus.destroy');
         });
 		
-		Route::resource('roles', RolesController::class);
-        Route::resource('permissions', PermissionsController::class);	
+		
 	});
 });
 
@@ -147,5 +146,7 @@ Route::put('/pengumumans/{pengumuman}', [PengumumanController::class, 'update'])
 Route::delete('/pengumumans/{pengumuman}', [PengumumanController::class, 'destroy'])->name('pengumuman.destroy');
 Route::post('/pengumuman/{id}/toggle-status', [PengumumanController::class, 'toggleStatus'])->name('pengumuman.toggle-status');
 
+Route::resource('roles', RolesController::class);
+        Route::resource('permissions', PermissionsController::class);	
 
 //require_once(__DIR__ . '/partial/berita.php');
