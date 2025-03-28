@@ -15,12 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(CreateAdminUserSeeder::class);
         $this->call(MenusTableSeeder::class);
-        $this->call(MataKuliahAPISeeder::class);
-        $this->call(MahasiswaAPISeeder::class);
-        $this->call(KuliahAPISeeder::class);
-        $this->call(RuangAPISeeder::class);
-        $this->call(ProdiAPISeeder::class);
-        $this->call(PegawaiAPISeeder::class);
-        $this->call(UserAPISeeder::class);
+        // $this->call(MataKuliahAPISeeder::class);
+        // $this->call(MahasiswaAPISeeder::class);
+        // $this->call(KuliahAPISeeder::class);
+        // $this->call(RuangAPISeeder::class);
+        // $this->call(ProdiAPISeeder::class);
+        // $this->call(PegawaiAPISeeder::class);
+        // $this->call(UserAPISeeder::class);
     }
 }
