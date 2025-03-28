@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Core;
 
 use App\Http\Controllers\Controller;
-use App\Models\Dosen;
 use App\Models\Mahasiswa;
 use App\Models\Proposal;
 use App\Http\Requests\ProposalRequest;
@@ -18,7 +17,7 @@ class ProposalController extends Controller
      */
     public function index()
     {
-        $proposals = Proposal::with('mahasiswa', 'dosen')->get();
+        $proposals = Proposal::with('mahasiswa')->get();
 
         return view('proposals.view', compact('proposals'));
     }
@@ -29,8 +28,8 @@ class ProposalController extends Controller
     public function create()
     {
         $mahasiswas = Mahasiswa::all();
-        $dosens = User::all();
-        return view('proposals.create', compact('mahasiswas', 'dosens'));
+        $s = User::all();
+        return view('proposals.create', compact('mahasiswas', 's'));
     }
 
     /**
@@ -40,24 +39,23 @@ class ProposalController extends Controller
     {
         $filename = 'proposal_' . uniqid() . '.' . $request->file('file_proposal')->getClientOriginalExtension();
         $filePath = $request->file('file_proposal')->storeAs('file_proposal', $filename, 'public');
-    
+
         $validatedData = $request->validated();
         $validatedData['file_proposal'] = $filePath;
-    
+
         $proposal = Proposal::create($validatedData);
         $proposal->mahasiswa()->attach($request->mahasiswa_ids);
-        $proposal->dosen()->attach($request->dosen_ids);
-    
+
         return redirect()->route('prop.index')->with('success', 'Proposal created successfully!');
     }
-    
+
 
     /**
      * Display the specified resource.
      */
     public function show(Proposal $proposal)
     {
-        $proposal->load('mahasiswa', 'dosen');
+        $proposal->load('mahasiswa');
         return view('proposals.detail', compact('proposal'));
     }
 
@@ -67,8 +65,8 @@ class ProposalController extends Controller
     public function edit(Proposal $proposal)
     {
         $mahasiswas = Mahasiswa::all();
-        $dosens = User::all();
-        return view('proposals.edit', compact('proposal', 'mahasiswas', 'dosens'));
+        $s = User::all();
+        return view('proposals.edit', compact('proposal', 'mahasiswas', 's'));
     }
 
     /**
@@ -77,21 +75,21 @@ class ProposalController extends Controller
     public function update(ProposalRequest $request, Proposal $proposal)
     {
         $data = $request->validated();
-    
+
         if ($request->hasFile('file_proposal')) {
             if ($proposal->file_proposal && Storage::disk('public')->exists($proposal->file_proposal)) {
                 Storage::disk('public')->delete($proposal->file_proposal);
             }
-    
+
             $filename = 'proposal_' . time() . '_' . uniqid() . '.' . $request->file('file_proposal')->getClientOriginalExtension();
             $data['file_proposal'] = $request->file('file_proposal')->storeAs('proposals', $filename, 'public');
         }
-    
+
         $proposal->update($data);
-    
+
         return redirect()->route('prop.index')->with('success', 'Proposal updated successfully!');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -99,7 +97,6 @@ class ProposalController extends Controller
     public function destroy(Proposal $proposal)
     {
         $proposal->mahasiswa()->detach();
-        $proposal->dosen()->detach();
         $proposal->delete();
 
         if ($proposal) {

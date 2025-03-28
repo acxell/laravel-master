@@ -43,18 +43,25 @@
                             <td>{{ $proposal->skema_pkm }}</td>
                             <td>{{ $proposal->tahun_pengajuan }}</td>
                             <td>
-                                <a href="{{ route('prop.detail', $proposal->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail">
-                                    <i class="badge-circle font-small-1" data-feather="eye"></i>
+                                <a href="{{ route('prop.detail', $proposal->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail">Detail
+                                    <i class="badge-circle font-small-1" ></i>
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('prop.edit', $proposal->id) }}">
-                                    <i class="badge-circle font-medium-1" data-feather="edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"></i>
+                                <a href="{{ route('prop.edit', $proposal->id) }}" class="btn btn-warning btn-sm"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                    <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $proposal->id }}').submit();">
-                                    <i class="badge-circle font-medium-1" data-feather="trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"></i>
-                                </a>
-                                <form id="delete-form-{{ $proposal->id }}" action="{{ route('prop.destroy', $proposal->id) }}" method="POST" style="display:none;">
+
+                                <form action="{{ route('prop.destroy', $proposal->id) }}" method="POST"
+                                    class="d-inline"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                     @csrf
                                     @method('DELETE')
                                 </form>
