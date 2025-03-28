@@ -20,19 +20,19 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['namespace' => 'App\Http\Controllers\Core'], function()
-{ 
+{
 	Route::group(['middleware' => ['guest']], function() {
 		Route::get('/', function () {
 			return redirect()->route('home.index');//return view('welcome');
-		});        
+		});
 	});
-	
+
 	Route::group(['middleware' => ['auth', 'permission']], function() {
 		/**
 		 * Home Routes
 		 */
 		Route::get('/home', 'HomeController@index')->name('home.index');
-		
+
 		/**
          * User Routes
          */
@@ -48,7 +48,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Core'], function()
             Route::get('/profile', 'UsersController@editProfile')->name('users.editprofile');
             Route::patch('/{user}/updateprofile', 'UsersController@updateProfile')->name('users.updateprofile');
         });
-		
+
 		Route::group(['prefix' => 'menus'], function() {
             Route::get('/', 'MenusController@index')->name('menus.index');
             Route::post('/', 'MenusController@simpan')->name('menus.simpan');
@@ -59,23 +59,23 @@ Route::group(['namespace' => 'App\Http\Controllers\Core'], function()
             Route::patch('/{menu}/update', 'MenusController@update')->name('menus.update');
             Route::get('/{menu}/delete', 'MenusController@destroy')->name('menus.destroy');
         });
-		
-		
+
+
 	});
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Autentikasi'], function()
-{   
-    
+{
+
 
     Route::group(['middleware' => ['guest']], function() {
-		
+
 		/**
          * Login Routes
          */
         Route::get('/login', 'LoginController@show')->name('login.show');
         Route::post('/login', 'LoginController@login')->name('login.perform');
-		
+
 		/*
 		*SSO
 		*/
@@ -90,22 +90,22 @@ Route::group(['namespace' => 'App\Http\Controllers\Autentikasi'], function()
          * Logout Routes
          */
         Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
-		
+
 		//switch peran
 		Route::post('/peran', 'SwitchController@perform')->name('beralih.peran');
-		
-		
-		
+
+
+
     });
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Monitor'], function()
-{   
-    
+{
+
 
     Route::group(['middleware' => ['guest']], function() {
-		
-		
+
+
 
     });
 
@@ -116,9 +116,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Monitor'], function()
         Route::get('/logged-in-devices', 'LoggedInDeviceManager@index')->name('logged-in-devices.list');
 		Route::get('/logout/all', 'LoggedInDeviceManager@logoutAllDevices')->name('logged-in-devices.logoutAll');
 		Route::get('/logout/{device_id}', 'LoggedInDeviceManager@logoutDevice')->name('logged-in-devices.logoutSpecific');
-		
+
 		Route::get('/login-activity', 'LoginActivityController@index')->name('logged-activity.list');
-		
+
     });
 });
 
@@ -147,6 +147,6 @@ Route::delete('/pengumumans/{pengumuman}', [PengumumanController::class, 'destro
 Route::post('/pengumuman/{id}/toggle-status', [PengumumanController::class, 'toggleStatus'])->name('pengumuman.toggle-status');
 
 Route::resource('roles', RolesController::class);
-        Route::resource('permissions', PermissionsController::class);	
+        Route::resource('permissions', PermissionsController::class);
 
 //require_once(__DIR__ . '/partial/berita.php');

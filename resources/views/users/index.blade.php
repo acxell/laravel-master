@@ -13,7 +13,7 @@
 					Manage your users here.
 					<a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right">Add new user</a>
 				</div>
-				
+
 				<div class="mt-2">
 					@include('layouts.partials.messages')
 				</div>
@@ -26,7 +26,7 @@
 						<th scope="col">Email</th>
 						<th scope="col" width="10%">Username</th>
 						<th scope="col" width="10%">Roles</th>
-						<th scope="col" width="1%" colspan="3"></th>    
+						<th scope="col" width="1%" colspan="3"></th>
 					</tr>
 					</thead>
 					<tbody>
@@ -47,7 +47,7 @@
 								</td>
 								<td>
 									<a href="{{ route('users.edit', $user->id) }}" class="btn btn-info btn-sm">Edit</a>
-									
+
 								</td>
 								<td>
 									{!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
